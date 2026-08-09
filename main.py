@@ -1,6 +1,7 @@
 import logging
 
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 from routers import refuge, snapshot, sensor
 from contextlib import asynccontextmanager
 from db.main import init_db
@@ -20,6 +21,15 @@ app = FastAPI(
     title='SensoryWay API',
     description='REST API for SensoryWay application'
 )
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=False,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
 
 app.include_router(snapshot.router, prefix='/api')
 app.include_router(sensor.router, prefix='/api')
