@@ -13,7 +13,9 @@ class SCAPIRecord(BaseModel):
     total_of_directions: int | None
 
 async def get_sc_data() -> list[SCAPIRecord]:
-    async with httpx.AsyncClient(timeout=30) as client:
+    transport = httpx.AsyncHTTPTransport(http1=True, http2=False)
+
+    async with httpx.AsyncClient(transport=transport, timeout=30) as client:
         response = await client.get(
             "https://data.melbourne.vic.gov.au/api/explore/v2.1/catalog/datasets/pedestrian-counting-system-past-hour-counts-per-minute/exports/json?where=sensing_datetime%3E%3Dnow%28minutes%3D-40%29&order_by=location_id%2Csensing_datetime&limit=-1&timezone=Australia%2FMelbourne&use_labels=false&compressed=false"
         )
