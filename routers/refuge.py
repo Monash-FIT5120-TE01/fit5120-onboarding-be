@@ -57,6 +57,7 @@ async def getRefuges(
                 if haversine_distance(lon, lat, refuge.refuge_lon, refuge.refuge_lat) <= proximity:
                     if (tier is None) | (refuge.refuge_tier == tier):
                         output.append(refuge)
+            return output
 
     except:
         raise HTTPException(
