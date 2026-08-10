@@ -148,3 +148,25 @@ LEFT JOIN LATERAL (
     ORDER BY cb_computedat DESC
     LIMIT 1
 ) AS cb ON TRUE;
+
+drop table if exists raw_sensor_count;
+
+create table raw_sensor_count (
+	id INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+	location_id INTEGER NOT NULL,
+    sensing_datetime TIMESTAMPTZ NOT NULL,
+    sensing_date DATE NOT NULL,
+    sensing_time VARCHAR(10) NOT NULL,
+    direction_1 INTEGER,
+    direction_2 INTEGER,
+    total_of_directions INTEGER,
+    retrieved_at TIMESTAMPTZ NOT NULL,
+	constraint uq_rsc unique (location_id, sensing_datetime)
+);
+
+drop table if exists sc_ingestion_run;
+create table sc_ingestion_run (
+	id INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    last_successful_retrieval timestamptz,
+    last_processed_hour timestamptz
+);

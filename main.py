@@ -1,10 +1,12 @@
 import logging
 
-from fastapi import FastAPI
+from fastapi import Depends, FastAPI, HTTPException, status
 from fastapi.middleware.cors import CORSMiddleware
+from sqlmodel import Session
 from routers import refuge, snapshot, sensor
 from contextlib import asynccontextmanager
-from db.main import init_db
+from db.main import init_db, get_session
+from helpers.sc_ingestion import run_sc_ingestion
 
 @asynccontextmanager
 async def life_span(app: FastAPI):
@@ -39,3 +41,15 @@ app.include_router(refuge.router, prefix='/api')
 @app.get("/")
 async def root():
     return {"message": "Hello World"}
+
+@app.get("/sc-ingestion-run")
+async def sensor_hourly_ingestion(
+    session: Session = Depends(get_session)
+):
+    try:
+        return await run_sc_ingestion(session)
+    except:
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, 
+            detail="Ingestion run fail"
+        )
