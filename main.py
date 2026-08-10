@@ -1,4 +1,5 @@
 import logging
+import traceback
 
 from fastapi import Depends, FastAPI, HTTPException, status
 from fastapi.middleware.cors import CORSMiddleware
@@ -48,8 +49,9 @@ async def sensor_hourly_ingestion(
 ):
     try:
         return await run_sc_ingestion(session)
-    except:
+    except Exception as e:
+        traceback.print_exc()
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, 
-            detail="Ingestion run fail"
+            detail=str(e)
         )
