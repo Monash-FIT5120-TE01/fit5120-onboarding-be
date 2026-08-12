@@ -8,4 +8,5 @@ dependencies = [
     "psycopg2-binary>=2.9.12",
     "pydantic-settings>=2.15.0",
     "sqlmodel>=0.0.39",
+    "tzdata>=2026.3",
 ]

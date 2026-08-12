@@ -4,7 +4,7 @@ import traceback
 from fastapi import Depends, FastAPI, HTTPException, status
 from fastapi.middleware.cors import CORSMiddleware
 from sqlmodel import Session
-from routers import refuge, snapshot, sensor
+from routers import place, refuge, snapshot, sensor
 from contextlib import asynccontextmanager
 from db.main import init_db, get_session
 from helpers.sc_ingestion import run_sc_ingestion
@@ -37,7 +37,7 @@ app.add_middleware(
 app.include_router(snapshot.router, prefix='/api')
 app.include_router(sensor.router, prefix='/api')
 app.include_router(refuge.router, prefix='/api')
-
+app.include_router(place.router, prefix="/api")
 
 @app.get("/")
 async def root():
