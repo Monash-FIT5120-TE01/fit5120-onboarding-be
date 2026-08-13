@@ -17,7 +17,7 @@ async def get_sc_data() -> list[SCAPIRecord]:
 
     async with httpx.AsyncClient(transport=transport, timeout=30) as client:
         response = await client.get(
-            "https://data.melbourne.vic.gov.au/api/explore/v2.1/catalog/datasets/pedestrian-counting-system-past-hour-counts-per-minute/exports/json?where=sensing_datetime%3E%3Dnow%28minutes%3D-40%29&order_by=location_id%2Csensing_datetime&limit=-1&timezone=Australia%2FMelbourne&use_labels=false&compressed=false"
+            "https://data.melbourne.vic.gov.au/api/explore/v2.1/catalog/datasets/pedestrian-counting-system-past-hour-counts-per-minute/exports/json?where=sensing_datetime%20%3E%3D%20now%28hours%3D-2%29&order_by=location_id%2C%20sensing_datetime&limit=-1&timezone=Australia%2FMelbourne&use_labels=false&compressed=false&epsg=4326"
         )
 
         response.raise_for_status()

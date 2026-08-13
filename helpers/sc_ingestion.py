@@ -79,7 +79,6 @@ def save_raw_data(
             existing.total_of_directions = record.total_of_directions
             existing.retrieved_at = retrieved_at
         else:
-            dt = ensure_utc(record.sensing_datetime)
             session.add(
                 RawSensorCount(
                     location_id=record.location_id,
@@ -89,7 +88,7 @@ def save_raw_data(
                     direction_1=record.direction_1,
                     direction_2=record.direction_2,
                     total_of_directions=record.total_of_directions,
-                    retrieved_at=dt
+                    retrieved_at=retrieved_at
                 )
             )
 
